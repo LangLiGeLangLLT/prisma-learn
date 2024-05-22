@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 
 const navigation = [
-  { title: 'Home', href: '/' },
   { title: 'Providers', href: '/providers' },
+  { title: 'Campaign', href: '/campaigns' },
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
