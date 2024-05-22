@@ -13,10 +13,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Post {
+  id         String    @id @default(cuid())
+  body       String
+  publishAt  DateTime
+  provider   Provider? @relation(fields: [providerId], references: [id])
+  providerId String?
+  campaigns Campaign[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+}
+
 model Provider {
   id        String   @id @default(cuid())
   name      String
   account   String
+  posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  posts       Post[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }
