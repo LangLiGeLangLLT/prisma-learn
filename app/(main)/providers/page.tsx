@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import CreateProviderDialog from './_components/create-provider-dialog'
+import CreateProviderDialog from './components/create-provider-dialog'
 
 export default async function Page() {
   const providers = await db.provider.findMany()

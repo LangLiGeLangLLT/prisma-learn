@@ -4,6 +4,7 @@ import React from 'react'
 const navigation = [
   { title: 'Providers', href: '/providers' },
   { title: 'Campaign', href: '/campaigns' },
+  { title: 'Schedule', href: '/schedule' },
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
