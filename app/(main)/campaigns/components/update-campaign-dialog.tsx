@@ -1,6 +1,6 @@
 'use client'
 
-import { createCampaign } from '@/actions/campaign'
+import { updateCampaign } from '@/actions/campaign'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,26 +24,31 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { campaignSchema } from '@/lib/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2, Plus } from 'lucide-react'
+import { Campaign } from '@prisma/client'
+import { Loader2, Pencil } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-export default function CreateCampaignDialog() {
+export default function UpdateCampaignDialog({
+  campaign,
+}: {
+  campaign: Campaign
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
   const form = useForm<z.infer<typeof campaignSchema>>({
     resolver: zodResolver(campaignSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: campaign.name,
+      description: campaign.description,
     },
   })
 
   function onSubmit(values: z.infer<typeof campaignSchema>) {
     startTransition(() => {
-      createCampaign(values)
+      updateCampaign(campaign.id, values)
         .then(({ errors }) => {
           if (errors) {
             throw new Error('Something went wrong.')
@@ -65,21 +70,15 @@ export default function CreateCampaignDialog() {
   }
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={(open) => {
-        setIsOpen(open)
-        form.reset()
-      }}
-    >
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 size-4" /> Add Campaign
-        </Button>
+        <button>
+          <Pencil className="mr-2 size-4" />
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Campaign</DialogTitle>
+          <DialogTitle>Update Campaign</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

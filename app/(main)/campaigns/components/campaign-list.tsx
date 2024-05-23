@@ -13,6 +13,7 @@ import { Trash2 } from 'lucide-react'
 import { deleteCampaign, findCampaignsWithPosts } from '@/actions/campaign'
 import { Prisma } from '@prisma/client'
 import { toast } from '@/components/ui/use-toast'
+import UpdateCampaignDialog from './update-campaign-dialog'
 
 export default function CampaignList({
   campaigns,
@@ -34,10 +35,13 @@ export default function CampaignList({
         <Card key={campaign.id}>
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-              {campaign.name}{' '}
-              <button onClick={() => onDeleteCampaign(campaign.id)}>
-                <Trash2 className="size-4 text-destructive" />
-              </button>
+              <span>{campaign.name}</span>
+              <div className="space-x-2">
+                <UpdateCampaignDialog campaign={campaign} />
+                <button onClick={() => onDeleteCampaign(campaign.id)}>
+                  <Trash2 className="size-4 text-destructive" />
+                </button>
+              </div>
             </CardTitle>
             <CardDescription>{campaign.description}</CardDescription>
           </CardHeader>

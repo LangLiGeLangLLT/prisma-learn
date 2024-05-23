@@ -71,7 +71,13 @@ export default function CreateProviderDialog() {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open)
+        form.reset()
+      }}
+    >
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 size-4" /> Add Provider

@@ -45,6 +45,35 @@ export async function createCampaign(values: z.infer<typeof campaignSchema>) {
   }
 }
 
+export async function updateCampaign(
+  campaignId: string,
+  values: z.infer<typeof campaignSchema>
+) {
+  const { success, data, error } = campaignSchema.safeParse(values)
+
+  if (!success) {
+    return {
+      errors: error.flatten().fieldErrors,
+    }
+  }
+
+  const campaign = await db.campaign.update({
+    where: {
+      id: campaignId,
+    },
+    data: {
+      name: data.name,
+      description: data.description,
+    },
+  })
+
+  revalidatePath('/campaigns')
+
+  return {
+    data: campaign,
+  }
+}
+
 export async function deleteCampaign(campaignId: string) {
   const campaign = await db.campaign.delete({
     where: {
