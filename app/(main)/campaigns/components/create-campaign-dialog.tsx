@@ -1,8 +1,7 @@
 'use client'
 
-import React from 'react'
+import { createCampaign } from '@/actions/campaign'
 import { Button } from '@/components/ui/button'
-import { Loader2, Plus } from 'lucide-react'
 import {
   Dialog,
   DialogClose,
@@ -12,9 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
   FormControl,
@@ -23,33 +19,31 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { createProvider } from '@/actions/provider'
-import { providerSchema } from '@/lib/schema'
+import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
+import { campaignSchema } from '@/lib/schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2, Plus } from 'lucide-react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-export default function CreateProviderDialog() {
+export default function CreateCampaignDialog() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
-  const form = useForm<z.infer<typeof providerSchema>>({
-    resolver: zodResolver(providerSchema),
+  const form = useForm<z.infer<typeof campaignSchema>>({
+    resolver: zodResolver(campaignSchema),
     defaultValues: {
       name: '',
-      account: '',
+      description: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof providerSchema>) {
+  function onSubmit(values: z.infer<typeof campaignSchema>) {
     startTransition(() => {
-      createProvider(values)
+      createCampaign(values)
         .then(({ errors }) => {
           if (errors) {
             throw new Error('Something went wrong.')
@@ -58,7 +52,7 @@ export default function CreateProviderDialog() {
           setIsOpen(false)
           toast({
             title: 'Success',
-            description: `Created successfully.`,
+            description: 'created successfully.',
           })
         })
         .catch((error) => {
@@ -74,12 +68,12 @@ export default function CreateProviderDialog() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus className="mr-2 size-4" /> Add Provider
+          <Plus className="mr-2 size-4" /> Add Campaign
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Provider</DialogTitle>
+          <DialogTitle>Add Campaign</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -88,35 +82,22 @@ export default function CreateProviderDialog() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Provider</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select..." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Twitter">Twitter</SelectItem>
-                      <SelectItem value="Instagram">Instagram</SelectItem>
-                      <SelectItem value="Facebook">Facebook</SelectItem>
-                      <SelectItem value="LinkedIn">LinkedIn</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Input..." {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
               control={form.control}
-              name="account"
+              name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="Input..." {...field} />
+                    <Textarea placeholder="Input..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

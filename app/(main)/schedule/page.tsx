@@ -1,5 +1,4 @@
 import React from 'react'
-import db from '@/lib/db'
 import {
   Card,
   CardContent,
@@ -7,14 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { findPostsWithProvidersCampaigns } from '@/actions/post'
 
 export default async function Page() {
-  const posts = await db.post.findMany({
-    include: {
-      provider: true,
-      campaigns: true,
-    },
-  })
+  const posts = await findPostsWithProvidersCampaigns()
 
   return (
     <div className="space-y-4">

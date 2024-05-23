@@ -1,5 +1,4 @@
 import React from 'react'
-import db from '@/lib/db'
 import {
   Card,
   CardDescription,
@@ -7,9 +6,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import CreateProviderDialog from './components/create-provider-dialog'
+import { findProviders } from '@/actions/provider'
 
 export default async function Page() {
-  const providers = await db.provider.findMany()
+  const providers = await findProviders()
 
   return (
     <div className="space-y-4">
