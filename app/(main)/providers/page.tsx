@@ -1,12 +1,7 @@
 import React from 'react'
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import CreateProviderDialog from './components/create-provider-dialog'
 import { findProviders } from '@/actions/provider'
+import ProviderList from './components/provider-list'
 
 export default async function Page() {
   const providers = await findProviders()
@@ -14,15 +9,7 @@ export default async function Page() {
   return (
     <div className="space-y-4">
       <CreateProviderDialog />
-
-      {providers.map((provider) => (
-        <Card key={provider.id}>
-          <CardHeader>
-            <CardTitle>{provider.name}</CardTitle>
-            <CardDescription>{provider.account}</CardDescription>
-          </CardHeader>
-        </Card>
-      ))}
+      <ProviderList providers={providers} />
     </div>
   )
 }

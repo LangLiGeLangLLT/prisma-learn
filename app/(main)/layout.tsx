@@ -1,4 +1,8 @@
+'use client'
+
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
 const navigation = [
@@ -8,13 +12,22 @@ const navigation = [
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 bg-background shadow h-12">
         <ul className="container flex items-center h-full space-x-8">
           {navigation.map((nav) => (
-            <li key={nav.title}>
-              <Link className="font-medium" href={nav.href}>
+            <li key={nav.title} className="relative">
+              <Link
+                className={cn(
+                  'font-medium',
+                  pathname === nav.href &&
+                    'after:absolute after:bg-foreground after:h-0.5 after:-bottom-3 after:left-0 after:w-full after:block'
+                )}
+                href={nav.href}
+              >
                 {nav.title}
               </Link>
             </li>
