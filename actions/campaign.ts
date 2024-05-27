@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { campaignSchema } from '@/lib/schema'
+import { CampaignSchema } from '@/lib/schema'
 import db from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 
@@ -22,8 +22,8 @@ export async function findCampaignsWithPosts() {
   })
 }
 
-export async function createCampaign(values: z.infer<typeof campaignSchema>) {
-  const { success, data, error } = campaignSchema.safeParse(values)
+export async function createCampaign(values: z.infer<typeof CampaignSchema>) {
+  const { success, data, error } = CampaignSchema.safeParse(values)
 
   if (!success) {
     return {
@@ -47,9 +47,9 @@ export async function createCampaign(values: z.infer<typeof campaignSchema>) {
 
 export async function updateCampaign(
   campaignId: string,
-  values: z.infer<typeof campaignSchema>
+  values: z.infer<typeof CampaignSchema>
 ) {
-  const { success, data, error } = campaignSchema.safeParse(values)
+  const { success, data, error } = CampaignSchema.safeParse(values)
 
   if (!success) {
     return {

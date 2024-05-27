@@ -22,7 +22,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
-import { campaignSchema } from '@/lib/schema'
+import { CampaignSchema } from '@/lib/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Campaign } from '@prisma/client'
 import { Loader2, Pencil } from 'lucide-react'
@@ -38,15 +38,15 @@ export default function UpdateCampaignDialog({
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
-  const form = useForm<z.infer<typeof campaignSchema>>({
-    resolver: zodResolver(campaignSchema),
+  const form = useForm<z.infer<typeof CampaignSchema>>({
+    resolver: zodResolver(CampaignSchema),
     defaultValues: {
       name: campaign.name,
       description: campaign.description,
     },
   })
 
-  function onSubmit(values: z.infer<typeof campaignSchema>) {
+  function onSubmit(values: z.infer<typeof CampaignSchema>) {
     startTransition(() => {
       updateCampaign(campaign.id, values)
         .then(({ errors }) => {

@@ -32,22 +32,22 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { createProvider } from '@/actions/provider'
-import { providerSchema } from '@/lib/schema'
+import { ProviderSchema } from '@/lib/schema'
 import { toast } from '@/components/ui/use-toast'
 
 export default function CreateProviderDialog() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
-  const form = useForm<z.infer<typeof providerSchema>>({
-    resolver: zodResolver(providerSchema),
+  const form = useForm<z.infer<typeof ProviderSchema>>({
+    resolver: zodResolver(ProviderSchema),
     defaultValues: {
       name: '',
       account: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof providerSchema>) {
+  function onSubmit(values: z.infer<typeof ProviderSchema>) {
     startTransition(() => {
       createProvider(values)
         .then(({ errors }) => {

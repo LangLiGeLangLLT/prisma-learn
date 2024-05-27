@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { createProvider, updateProvider } from '@/actions/provider'
-import { providerSchema } from '@/lib/schema'
+import { ProviderSchema } from '@/lib/schema'
 import { toast } from '@/components/ui/use-toast'
 import { Provider } from '@prisma/client'
 
@@ -44,15 +44,15 @@ export default function UpdateProviderDialog({
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
-  const form = useForm<z.infer<typeof providerSchema>>({
-    resolver: zodResolver(providerSchema),
+  const form = useForm<z.infer<typeof ProviderSchema>>({
+    resolver: zodResolver(ProviderSchema),
     defaultValues: {
       name: provider.name,
       account: provider.account,
     },
   })
 
-  function onSubmit(values: z.infer<typeof providerSchema>) {
+  function onSubmit(values: z.infer<typeof ProviderSchema>) {
     startTransition(() => {
       updateProvider(provider.id, values)
         .then(({ errors }) => {

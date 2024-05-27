@@ -1,11 +1,17 @@
 import { z } from 'zod'
 
-export const providerSchema = z.object({
+export const ProviderSchema = z.object({
   name: z.string().min(1),
   account: z.string().min(1),
 })
 
-export const campaignSchema = z.object({
+export const CampaignSchema = z.object({
   name: z.string().min(1),
   description: z.string(),
+})
+
+export const PostSchema = z.object({
+  body: z.string().min(1),
+  providerId: z.string().min(1),
+  campaignIds: z.array(z.string().min(1)).min(1),
 })

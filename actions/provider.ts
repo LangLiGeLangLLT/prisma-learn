@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { providerSchema } from '@/lib/schema'
+import { ProviderSchema } from '@/lib/schema'
 import db from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 
@@ -9,8 +9,8 @@ export async function findProviders() {
   return await db.provider.findMany()
 }
 
-export async function createProvider(values: z.infer<typeof providerSchema>) {
-  const { success, data, error } = providerSchema.safeParse(values)
+export async function createProvider(values: z.infer<typeof ProviderSchema>) {
+  const { success, data, error } = ProviderSchema.safeParse(values)
 
   if (!success) {
     return {
@@ -34,9 +34,9 @@ export async function createProvider(values: z.infer<typeof providerSchema>) {
 
 export async function updateProvider(
   providerId: string,
-  values: z.infer<typeof providerSchema>
+  values: z.infer<typeof ProviderSchema>
 ) {
-  const { success, data, error } = providerSchema.safeParse(values)
+  const { success, data, error } = ProviderSchema.safeParse(values)
 
   if (!success) {
     return {
