@@ -36,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="flex-1">
-        <div className="container mt-5">{children}</div>
+        <div className="container my-5">{children}</div>
       </main>
 
       <footer className="h-10 flex justify-center items-center bg-foreground/5">

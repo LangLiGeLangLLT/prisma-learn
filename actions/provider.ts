@@ -51,6 +51,7 @@ export async function updateProvider(
     data: {
       name: data.name,
       account: data.account,
+      updatedAt: new Date(),
     },
   })
 

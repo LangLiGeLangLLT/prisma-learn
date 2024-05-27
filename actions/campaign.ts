@@ -64,6 +64,7 @@ export async function updateCampaign(
     data: {
       name: data.name,
       description: data.description,
+      updatedAt: new Date(),
     },
   })
 
