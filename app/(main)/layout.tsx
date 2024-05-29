@@ -19,12 +19,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 bg-background shadow h-12">
         <ul className="container flex items-center h-full space-x-8">
           {navigation.map((nav) => (
-            <li key={nav.title} className="relative">
+            <li key={nav.title} className="h-full relative">
               <Link
                 className={cn(
-                  'font-medium',
+                  'font-medium h-full flex items-center',
                   pathname === nav.href &&
-                    'after:absolute after:bg-foreground after:h-0.5 after:-bottom-3 after:left-0 after:w-full after:block'
+                    'after:absolute after:bg-foreground after:h-0.5 after:bottom-0 after:left-0 after:w-full after:block'
                 )}
                 href={nav.href}
               >
