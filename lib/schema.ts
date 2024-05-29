@@ -12,6 +12,7 @@ export const CampaignSchema = z.object({
 
 export const PostSchema = z.object({
   body: z.string().min(1),
+  publishAt: z.date(),
   providerId: z.string().min(1),
   campaignIds: z.array(z.string().min(1)).min(1),
 })
