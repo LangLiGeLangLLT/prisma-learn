@@ -57,7 +57,7 @@ export default function UpdateCampaignDialog({
           setIsOpen(false)
           toast({
             title: 'Success',
-            description: 'created successfully.',
+            description: 'Updated successfully.',
           })
         })
         .catch((error) => {

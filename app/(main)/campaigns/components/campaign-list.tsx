@@ -21,12 +21,19 @@ export default function CampaignList({
   campaigns: Prisma.PromiseReturnType<typeof findCampaignsWithPosts>
 }) {
   function onDeleteCampaign(campaignId: string) {
-    deleteCampaign(campaignId).then(() => {
-      toast({
-        title: 'Campaign deleted',
-        description: 'The campaign has been deleted.',
+    deleteCampaign(campaignId)
+      .then(() => {
+        toast({
+          title: 'Campaign deleted',
+          description: 'The campaign has been deleted.',
+        })
       })
-    })
+      .catch(() => {
+        toast({
+          title: 'Failed to delete campaign',
+          description: 'The campaign could not be deleted.',
+        })
+      })
   }
 
   return (

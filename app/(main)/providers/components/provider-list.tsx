@@ -19,12 +19,19 @@ export default function ProviderList({
   providers: Prisma.PromiseReturnType<typeof findProviders>
 }) {
   function onDeleteProvider(providerId: string) {
-    deleteProvider(providerId).then(() => {
-      toast({
-        title: 'Provider deleted',
-        description: 'The provider has been deleted.',
+    deleteProvider(providerId)
+      .then(() => {
+        toast({
+          title: 'Provider deleted',
+          description: 'The provider has been deleted.',
+        })
       })
-    })
+      .catch(() => {
+        toast({
+          title: 'Failed to delete provider',
+          description: 'The provider could not be deleted.',
+        })
+      })
   }
 
   return (

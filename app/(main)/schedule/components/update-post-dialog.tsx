@@ -1,7 +1,7 @@
 'use client'
 
 import { findCampaignsWithPosts } from '@/actions/campaign'
-import { createPost } from '@/actions/post'
+import { findPostsWithProvidersCampaigns, updatePost } from '@/actions/post'
 import { findProviders } from '@/actions/provider'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -38,19 +38,23 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { PostSchema } from '@/lib/schema'
-import { cn } from '@/lib/utils'
+import { Flatten, cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
-import { CalendarIcon, Loader2, Plus } from 'lucide-react'
+import { CalendarIcon, Loader2, Pencil } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-export default function CreatePostDialog({
+export default function UpdatePostDialog({
+  post,
   providers,
   campaigns,
 }: {
+  post: Flatten<
+    Prisma.PromiseReturnType<typeof findPostsWithProvidersCampaigns>
+  >
   providers: Prisma.PromiseReturnType<typeof findProviders>
   campaigns: Prisma.PromiseReturnType<typeof findCampaignsWithPosts>
 }) {
@@ -60,16 +64,16 @@ export default function CreatePostDialog({
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      body: '',
-      publishAt: undefined,
-      providerId: '',
-      campaignIds: [],
+      body: post.body,
+      publishAt: post.publishAt,
+      providerId: post.provider?.id,
+      campaignIds: post.campaigns.map((campaign) => campaign.id),
     },
   })
 
   function onSubmit(values: z.infer<typeof PostSchema>) {
     startTransition(() => {
-      createPost(values)
+      updatePost(post.id, values)
         .then(({ errors }) => {
           if (errors) {
             throw new Error('Something went wrong.')
@@ -78,7 +82,7 @@ export default function CreatePostDialog({
           setIsOpen(false)
           toast({
             title: 'Success',
-            description: 'created successfully.',
+            description: 'Updated successfully.',
           })
         })
         .catch((error) => {
@@ -99,13 +103,13 @@ export default function CreatePostDialog({
       }}
     >
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 size-4" /> Add Post
-        </Button>
+        <button>
+          <Pencil className="mr-2 size-4" />
+        </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Post</DialogTitle>
+          <DialogTitle>Update Post</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

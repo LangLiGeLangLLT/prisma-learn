@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { Loader2, Pencil, Plus } from 'lucide-react'
+import { Loader2, Pencil } from 'lucide-react'
 import {
   Dialog,
   DialogClose,
@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { createProvider, updateProvider } from '@/actions/provider'
+import { updateProvider } from '@/actions/provider'
 import { ProviderSchema } from '@/lib/schema'
 import { toast } from '@/components/ui/use-toast'
 import { Provider } from '@prisma/client'
@@ -63,7 +63,7 @@ export default function UpdateProviderDialog({
           setIsOpen(false)
           toast({
             title: 'Success',
-            description: `Created successfully.`,
+            description: `Updated successfully.`,
           })
         })
         .catch((error) => {

@@ -14,14 +14,14 @@ datasource db {
 }
 
 model Post {
-  id         String    @id @default(cuid())
+  id         String     @id @default(cuid())
   body       String
   publishAt  DateTime
-  provider   Provider? @relation(fields: [providerId], references: [id])
+  provider   Provider?  @relation(fields: [providerId], references: [id])
   providerId String?
-  campaigns Campaign[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now())
+  campaigns  Campaign[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now())
 }
 
 model Provider {

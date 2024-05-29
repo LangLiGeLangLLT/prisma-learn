@@ -11,7 +11,7 @@ export async function findCampaignsWithPosts() {
       posts: {
         where: {
           publishAt: {
-            gt: new Date(),
+            lt: new Date(),
           },
         },
         select: {

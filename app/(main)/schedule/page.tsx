@@ -4,6 +4,7 @@ import PostList from './components/post-list'
 import CreatePostDialog from './components/create-post-dialog'
 import { findProviders } from '@/actions/provider'
 import { findCampaignsWithPosts } from '@/actions/campaign'
+import { nanoid } from 'nanoid'
 
 export default async function Page() {
   const posts = await findPostsWithProvidersCampaigns()
@@ -13,7 +14,12 @@ export default async function Page() {
   return (
     <div className="space-y-4">
       <CreatePostDialog providers={providers} campaigns={campaigns} />
-      <PostList posts={posts} />
+      <PostList
+        key={nanoid()}
+        posts={posts}
+        providers={providers}
+        campaigns={campaigns}
+      />
     </div>
   )
 }
